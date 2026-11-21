@@ -14,6 +14,10 @@ code that produced them is in `../benchmarks/`.
 | `needle-120k.json` | Long-context retrieval receipt (120,015 prompt tokens). |
 | `reasoning-effort.json` | Reasoning-token counts for `low`, `high`, `xhigh`. |
 | `concurrency-8.json` | Eight simultaneous requests, wall time and per-request latency. |
+| `sglang-ab.json` | Same-hardware vLLM vs SGLang comparison (earlier revision). |
+| `bf16-vs-fp8.json` | BF16 vs FP8 KV capacity, speed and quality probes. |
+| `kv-tuning.json` | Prefill-batch and utilization sweep that produced the 3.10M-token pool. |
+| `long-context.json` | 362,661-token and 120K needle receipts. |
 | `protocol-audit.json` | Structural audit: exact prompt/output counts, no failed requests, matching manifest hashes. |
 
 All throughput cells use exact-length token-ID prompts, unique nonce prefixes

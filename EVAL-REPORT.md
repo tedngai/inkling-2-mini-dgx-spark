@@ -42,7 +42,8 @@ acceptance and landed at 65.3.
 
 The vLLM recipe was kept because the target workload is one Spark, the vLLM
 image is the day-0 reference, and the FP8-KV tuning below recovered the
-capacity gap while keeping decode at parity.
+capacity gap while keeping decode at parity. Raw samples:
+`results/sglang-ab.json`.
 
 ## 3. BF16 vs FP8 KV (`ed40`, 0.85 utilization, 8,192 batch)
 
@@ -58,8 +59,9 @@ capacity gap while keeping decode at parity.
 FP8 KV did **not** lower the memory footprint: vLLM filled the same budget
 with more tokens. It added ~4% decode and ~45% capacity.
 
-Quality probes (math, palindrome code, syllogism) were correct under both.
-FP8 outputs were more verbose: reasoning tokens rose 264→299, 978→1,199 and
+Raw capacity, speed and quality notes: `results/bf16-vs-fp8.json`. Quality
+probes (math, palindrome code, syllogism) were correct under both. FP8 outputs
+were more verbose: reasoning tokens rose 264→299, 978→1,199 and
 989→1,458 on the three probes. This is a real behavioral difference, not a
 free lunch.
 
@@ -74,8 +76,8 @@ hybrid-cache padding. The pool changed far more than the activation saving:
 | 4,096 | 2,219,441 | 5.42× | 81.50 GiB | not measured | not measured |
 | 2,048 | **2,897,565** | **7.07×** | 82.07 GiB | ~3.9 s | ~75 tok/s |
 
-At 8,192 vLLM logged padding groups of +6, +5 and +7 layers, the last "up to
-350% waste". At 2,048 those padding warnings disappeared and per-token KV fell
+Raw sweep: `results/kv-tuning.json`. At 8,192 vLLM logged padding groups of +6,
++5 and +7 layers, the last "up to 350% waste". At 2,048 those padding warnings disappeared and per-token KV fell
 to ~30 KiB. The cost is ~0.5 s extra TTFT on a 10K prompt from more chunks.
 
 Quality at 2,048 vs 8,192, same deterministic probes: **byte-identical**
@@ -146,6 +148,7 @@ These are smoke checks, not a quality evaluation.
 - **120,015-token** needle passed under the final FP8/2,048 recipe.
 - The final matrix includes a **400,000-token** single request and a
   400,000-token C2/C4 wave (see `results/inkling-2-mini-table.md`).
+  Earlier receipts: `results/long-context.json`.
 
 ## 9. Limitations
 

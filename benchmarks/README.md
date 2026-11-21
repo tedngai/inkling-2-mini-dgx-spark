@@ -10,6 +10,7 @@ over its OpenAI-compatible API.
 | `matrix.py` | Sends exact-length token-ID prompts at the requested input sizes and concurrency, saves raw streamed token events, and writes `summary.json` + `TABLE.md`. |
 | `common_window.py` | Recomputes summaries from saved raw events; use it to audit a published matrix. |
 | `smoke.py` | Bounded feature checks: arithmetic, JSON schema, tool call + result, single-image vision, Anthropic Messages, prompt reuse, 120k needle, reasoning-effort scale and 8-way concurrency. |
+| `finalize.sh` | Recompute the table, copy the stable summary/table receipts and run the audit. |
 
 ## Matrix environment
 
