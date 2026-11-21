@@ -1,0 +1,87 @@
+{
+  "captured_at": "2026-11-21T22:50:32+0000",
+  "model": "inkling-2-mini",
+  "api": "http://127.0.0.1:8000",
+  "checks": [
+    {
+      "name": "health",
+      "status": "pass",
+      "detail": "HTTP 200",
+      "seconds": 0.006798744201660156
+    },
+    {
+      "name": "models",
+      "status": "pass",
+      "detail": "served ids: ['inkling-2-mini']",
+      "seconds": 0.0013027191162109375
+    },
+    {
+      "name": "arithmetic_19_plus_23",
+      "status": "pass",
+      "detail": "content='42'",
+      "seconds": 0.6943297386169434
+    },
+    {
+      "name": "json_schema",
+      "status": "pass",
+      "detail": "content='{\\n  \"city\": \"Paris\",\\n  \"temperature_c\": 0,\\n  \"conditions\": \"unavailable\"\\n}'",
+      "seconds": 4.483019113540649
+    },
+    {
+      "name": "tool_call_request",
+      "status": "pass",
+      "detail": "[{\"id\": \"chatcmpl-tool-942321d38b069ecf\", \"type\": \"function\", \"function\": {\"name\": \"get_weather\", \"arguments\": \"{\\\"city\\\":\\\"Paris\\\"}\"}}]",
+      "seconds": 0.9854207038879395
+    },
+    {
+      "name": "tool_call_round_trip",
+      "status": "pass",
+      "detail": "content='The weather in Paris is sunny, with a temperature of 22\u00b0C.'",
+      "seconds": 2.721686363220215
+    },
+    {
+      "name": "vision_single_red_square",
+      "status": "pass",
+      "detail": "content='Red'",
+      "seconds": 1.622654914855957
+    },
+    {
+      "name": "anthropic_count_tokens",
+      "status": "pass",
+      "detail": "{\"input_tokens\": 17, \"context_management\": {\"original_input_tokens\": 17}}",
+      "seconds": 0.00423121452331543
+    },
+    {
+      "name": "anthropic_messages",
+      "status": "pass",
+      "detail": "[{\"type\": \"thinking\", \"thinking\": \"The user asks: \\\"Say hello in one word.\\\" Need answer with one word. Could say \\\"Hello\\\". Need ensure final exactly one word perhaps \\\"Hello\\\". No extra punctuation? One word. Need consider if \\\"Hi\\\" is one word and also hello? They specifically say say hello, so \\\"Hello\\\" is appropriate. Final only one word.\", \"signature\": \"149e42114302461ab1b8c80da658ad20\"}, {\"type\": \"text\", \"text\": \"Hello\"}]",
+      "seconds": 1.450887680053711
+    },
+    {
+      "name": "prompt_reuse_32k",
+      "status": "pass",
+      "detail": "first=12.54s second=0.48s cache_hits=0.0->0.0",
+      "seconds": 0.4770200252532959
+    },
+    {
+      "name": "needle_120k",
+      "status": "pass",
+      "detail": "prompt_tokens=120015 answer='ZEBRA-9174'",
+      "seconds": 64.76258611679077
+    },
+    {
+      "name": "reasoning_effort_scale",
+      "status": "pass",
+      "detail": "{\"low\": 133, \"high\": 299, \"xhigh\": 326}",
+      "seconds": null
+    },
+    {
+      "name": "concurrency_8",
+      "status": "pass",
+      "detail": "wall=3.0s slowest=3.0s",
+      "seconds": null
+    }
+  ],
+  "passed": 13,
+  "total": 13
+}

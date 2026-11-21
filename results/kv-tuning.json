@@ -1,0 +1,27 @@
+{
+  "kind": "kv-tuning",
+  "model": "thinkingmachines/Inkling-2-Mini",
+  "model_revision": "ed40e7da625f594fc9c4990f5f66be24873c22d7",
+  "max_model_len": 409600,
+  "kv_dtype": "fp8",
+  "rows": [
+    {"gpu_memory_utilization": 0.85, "max_num_batched_tokens": 8192, "max_num_seqs": 4,
+     "kv_tokens": 1487307, "kv_gib": 80.41, "concurrency_at_400k": 3.63,
+     "ttft_s": [3.73, 3.16, 3.30], "decode_tok_s": [71.7, 75.9, 63.0]},
+    {"gpu_memory_utilization": 0.85, "max_num_batched_tokens": 4096, "max_num_seqs": 4,
+     "kv_tokens": 2219441, "kv_gib": 81.50, "concurrency_at_400k": 5.42,
+     "ttft_s": null, "decode_tok_s": null},
+    {"gpu_memory_utilization": 0.85, "max_num_batched_tokens": 2048, "max_num_seqs": 4,
+     "kv_tokens": 2897565, "kv_gib": 82.07, "concurrency_at_400k": 7.07,
+     "ttft_s": [4.20, 3.60, 3.83], "decode_tok_s": [68.4, 83.5, 72.7]},
+    {"gpu_memory_utilization": 0.90, "max_num_batched_tokens": 2048, "max_num_seqs": 8,
+     "kv_tokens": 3095742, "kv_gib": 88.14, "concurrency_at_400k": 7.56,
+     "ttft_s": [3.90], "decode_tok_s": [68.2]}
+  ],
+  "padding_observation": "At 8192 vLLM logged padding groups of +6, +5 and +7 layers (up to 350% waste); at 2048 the padding warnings disappeared.",
+  "quality_2048_vs_8192": {
+    "prompts": 3,
+    "exact_reasoning_and_content_matches": 3,
+    "long_context_note": "At 120K a 200-token budget was consumed by reasoning at 2048; 600 tokens returned the correct needle. Chunked prefill is equivalent but not guaranteed bit-exact."
+  }
+}

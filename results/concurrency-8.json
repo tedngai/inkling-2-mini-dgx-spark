@@ -1,0 +1,26 @@
+{
+  "model": "inkling-2-mini",
+  "requested": 8,
+  "wall_seconds": 2.9978201389312744,
+  "per_request_seconds": [
+    2.74,
+    2.74,
+    2.99,
+    2.74,
+    2.74,
+    2.99,
+    2.99,
+    2.92
+  ],
+  "contents": [
+    "OK 0",
+    "OK 1",
+    "OK 2",
+    "OK 3",
+    "OK 4",
+    "OK 5",
+    "OK 6",
+    "OK 7"
+  ],
+  "status": "pass"
+}

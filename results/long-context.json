@@ -1,0 +1,16 @@
+{
+  "kind": "long-context",
+  "receipts": [
+    {"model_revision": "ed40e7da625f594fc9c4990f5f66be24873c22d7",
+     "kv_dtype": "bfloat16", "max_num_batched_tokens": 8192,
+     "prompt_tokens": 362661, "output_tokens": 16, "seconds": 244.5,
+     "prefill_tok_s": 1483, "status": "HTTP 200"},
+    {"model_revision": "ed40e7da625f594fc9c4990f5f66be24873c22d7",
+     "kv_dtype": "fp8", "max_num_batched_tokens": 8192,
+     "prompt_tokens": 120941, "needle": "ZEBRA-9174", "status": "pass"},
+    {"model_revision": "b85c3cfa615fc413cc9af3379f491b963f3b586a",
+     "kv_dtype": "fp8", "max_num_batched_tokens": 2048,
+     "prompt_tokens": 120015, "needle": "ZEBRA-9174", "status": "pass"}
+  ],
+  "note": "The 400K matrix cells in results/inkling-2-mini-table.md are the final single-request and multi-request context receipts."
+}

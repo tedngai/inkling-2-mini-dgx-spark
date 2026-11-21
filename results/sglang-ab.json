@@ -1,0 +1,41 @@
+{
+  "kind": "engine-ab",
+  "measured_at": "2026-11-21",
+  "model": "thinkingmachines/Inkling-2-Mini",
+  "model_revision": "ed40e7da625f594fc9c4990f5f66be24873c22d7",
+  "hardware": "2 x DGX Spark GB10, one server per engine, same model copy",
+  "workload": "9.4K-10K-token README slices, 1024 output tokens, greedy, single stream, DSpark",
+  "vllm": {
+    "base": "http://192.0.2.10:8000",
+    "configured_context": 262144,
+    "kv_tokens": 790632,
+    "kv_dtype": "bfloat16",
+    "gpu_memory_utilization": 0.85,
+    "max_num_batched_tokens": 8192,
+    "decode_tok_s": [67.9, 63.8, 70.3, 63.6, 60.0, 54.6],
+    "decode_mean": 63.37,
+    "decode_median": 63.7,
+    "ttft_s": [3.182, 4.364, 4.542, 4.614, 3.079, 4.447],
+    "ttft_mean": 4.038,
+    "ttft_median": 4.405
+  },
+  "sglang": {
+    "base": "http://192.0.2.11:30000",
+    "configured_context": 1048576,
+    "kv_tokens": 493056,
+    "kv_dtype": "bfloat16",
+    "mem_fraction_static": 0.45,
+    "image": "lmsysorg/sglang:inkling-2-mini",
+    "decode_tok_s": [64.4, 79.9, 68.3, 59.7, 47.2, 72.1],
+    "decode_mean": 65.27,
+    "decode_median": 66.35,
+    "ttft_s": [2.877, 2.758, 2.876, 2.911, 2.827, 2.889],
+    "ttft_mean": 2.856,
+    "ttft_median": 2.877
+  },
+  "notes": [
+    "Decode is a tie within noise; SGLang's advantage is TTFT.",
+    "SGLang's 1M configured context is larger than its 493K KV pool, so the effective single-request maximum is ~493K.",
+    "The published SGLang cookbook number (63 tok/s) uses a simulated 3.5-token DSpark acceptance; this run used real acceptance."
+  ]
+}

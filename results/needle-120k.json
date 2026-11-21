@@ -1,0 +1,12 @@
+{
+  "kind": "needle",
+  "requested_tokens": 120000,
+  "method": "chat",
+  "prompt_tokens": 120015,
+  "completion_tokens": 249,
+  "seconds": 64.76258611679077,
+  "answer": "ZEBRA-9174",
+  "correct": true,
+  "model": "inkling-2-mini",
+  "tokenizer_sha256": "7f332727f9a3f093dd452a39cc978e6757627e5dad1b0673aa4e75174f236dd6"
+}

@@ -1,0 +1,28 @@
+{
+  "model": "thinkingmachines/Inkling-2-Mini",
+  "model_revision": "b85c3cfa615fc413cc9af3379f491b963f3b586a",
+  "served_model_name": "inkling-2-mini",
+  "max_model_len": 409600,
+  "kv_cache_dtype": "fp8",
+  "kv_cache_size_tokens": 3095742,
+  "kv_cache_max_concurrency_at_max_len": 7.557964103008757,
+  "gpu_memory_utilization": "0.9",
+  "max_num_batched_tokens": 2048,
+  "max_num_seqs": 8,
+  "enable_prefix_caching": true,
+  "speculative_config": {
+    "method": "dspark",
+    "num_speculative_tokens": 7,
+    "draft_sample_method": "probabilistic"
+  },
+  "reasoning_effort_levels": {
+    "none": 0.0,
+    "minimal": 0.1,
+    "low": 0.2,
+    "medium": 0.7,
+    "high": 0.9,
+    "xhigh": 0.99,
+    "max": 0.99
+  },
+  "reasoning_effort_default": 0.9
+}

@@ -1,0 +1,19 @@
+{
+  "kind": "kv-dtype-ab",
+  "model": "thinkingmachines/Inkling-2-Mini",
+  "model_revision": "ed40e7da625f594fc9c4990f5f66be24873c22d7",
+  "max_model_len": 409600,
+  "gpu_memory_utilization": 0.85,
+  "max_num_batched_tokens": 8192,
+  "bf16": {"kv_tokens": 1029348, "kv_gib": 80.52, "concurrency_at_400k": 2.51,
+           "decode_tok_s": [67.9, 63.8, 70.3], "ttft_s": [3.168]},
+  "fp8": {"kv_tokens": 1487307, "kv_gib": 80.41, "concurrency_at_400k": 3.63,
+          "decode_tok_s": [71.7, 75.9, 63.0], "ttft_s": [3.73, 3.16, 3.30]},
+  "quality": {
+    "math": "pass under both ($0.05)",
+    "code": "pass under both (longest palindrome)",
+    "syllogism": "pass under both",
+    "verbosity": "FP8 used more reasoning tokens: 264->299, 978->1199, 989->1458",
+    "warning": "vLLM logs that FP8 KV may cause accuracy drop without a proper scaling factor"
+  }
+}
