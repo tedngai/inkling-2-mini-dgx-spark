@@ -232,7 +232,43 @@ DSpark 7.
 
 Receipt: `results/chat-spec-ab.json`.
 
-## 11. Limitations
+## 11. External comparison: Inkling-2-Small on 4× Spark
+
+[AidenLab's recipe](https://aidenle.com/recipes/inkling-2-small-sglang-4x-dgx-spark/)
+publishes 55–56 tok/s for one stream. It is a different model, node count,
+engine and workload:
+
+| | Current: Mini, 1× Spark | External: Small, 4× Spark |
+|---|---|---|
+| Model / active parameters | 26B / 5.4B effective | 594B / 17B |
+| Hardware | 1× GB10, TP1 | 4× GB10, TP4/EP4 |
+| Engine | vLLM day-0 image | SGLang dev image + MIT hooks |
+| Context / KV pool | 400K / 3.10M tokens | 524K / 793K tokens |
+| Decode, coding answers | **46.6–55.1 tok/s** (mean 49.5) | **55–56 tok/s** |
+| Decode, chat prose | 37.2 tok/s | not published |
+| Raw code completion | 90.2 tok/s | not published |
+| Aggregate | C8 281–348 tok/s, short raw prompts | 92–107 / 131–137 at C4/C8 |
+| Cold prefill | 1,119–2,785 tok/s | 3,110 / 2,786 tok/s at 30K / 120K |
+
+The 55–56 number is **16 coding questions with 400-token answers at
+temperature 1.0**, not chat. On comparable coding questions the current Mini
+measures 46.6–55.1, so the gap is small.
+
+Why four Sparks can beat one on a much larger model:
+
+- Inkling-2-Small has 17B active parameters spread over four nodes — roughly
+  4.25B of active work per node on average, versus 5.4B effective active work
+  per token for Mini on one Spark.
+- The external recipe splits all 384 experts into quarter-width slices across
+  nodes; its measured single-stream gain is 48.3 → 60.0 tok/s (+24%). The
+  current vLLM recipe has no equivalent hook.
+- Coding answers keep DSpark acceptance high. Chat/reasoning prose collapses
+  it to 1.1–1.4 tokens/step, which is why the same current server prints
+  ~32–37 tok/s in chat.
+
+Receipt: `results/external-4x-small.json`.
+
+## 12. Limitations
 
 - FP8 KV is lossy and the image warns that accuracy can drop without a proper
   scaling factor. The quality gate is three deterministic prompts plus needles,

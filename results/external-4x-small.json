@@ -1,0 +1,40 @@
+{
+  "kind": "external-comparison",
+  "source": "https://aidenle.com/recipes/inkling-2-small-sglang-4x-dgx-spark/",
+  "measured": "2026-11-15 to 2026-11-21",
+  "external_recipe": {
+    "model": "thinkingmachines/Inkling-2-Small",
+    "active_parameters": "17B (594B total)",
+    "hardware": "4x DGX Spark GB10, TP4/EP4",
+    "engine": "SGLang dev-inkling-2-small",
+    "context": 524288,
+    "kv_tokens": 793000,
+    "kv_dtype": "fp8",
+    "decode_one_stream_tok_s": [55, 56],
+    "workload": "16 coding questions, 400-token answers, temperature 1.0",
+    "aggregate_4_streams_tok_s": [92, 107],
+    "aggregate_8_streams_tok_s": [131, 137],
+    "prefill_tok_s_30k_120k": [3110, 2786],
+    "key_optimization": "split all 384 experts into quarter-width slices across nodes: 1 stream 48.3 -> 60.0 tok/s (+24%)"
+  },
+  "current_recipe": {
+    "model": "thinkingmachines/Inkling-2-Mini",
+    "effective_active_parameters": "5.4B (26B total)",
+    "hardware": "1x DGX Spark GB10, TP1",
+    "engine": "vLLM 0.1.dev25855",
+    "context": 409600,
+    "kv_tokens": 3106964,
+    "code_chat_tok_s": [55.1, 46.7, 46.6],
+    "code_chat_mean_tok_s": 49.5,
+    "code_chat_workload": "3 coding questions, 400-token answers, temperature 1.0, high effort",
+    "raw_code_completion_tok_s": 90.2,
+    "chat_prose_mean_tok_s": 37.2,
+    "prefill_tok_s_range": [1119, 2785]
+  },
+  "why": [
+    "The external number is a coding benchmark at temperature 1.0, not chat prose; coding answers keep DSpark acceptance high.",
+    "It runs on four Sparks. Inkling-2-Small has 17B active parameters, so about 4.25B active work per node on average, versus 5.4B effective active work per token for Inkling-2-Mini on one Spark.",
+    "The external recipe's expert-width split adds ~24% single-stream decode on their setup; the current vLLM recipe does not have that hook.",
+    "Current Mini on comparable coding questions is 46.6-55.1 tok/s (mean 49.5), close to the external 55-56. The current recipe's low 32-37 tok/s number is chat prose, where DSpark acceptance falls to 1.1-1.4 tokens/step."
+  ]
+}

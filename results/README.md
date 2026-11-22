@@ -15,6 +15,7 @@ code that produced them is in `../benchmarks/`.
 | `reasoning-effort.json` | Reasoning-token counts for `low`, `high`, `xhigh`. |
 | `concurrency-8.json` | Eight simultaneous requests, wall time and per-request latency. |
 | `chat-spec-ab.json` | Chat prose vs matrix-prompt DSpark acceptance; DSpark 7 vs no-spec. |
+| `external-4x-small.json` | Comparison with AidenLab's 4× Spark Inkling-2-Small SGLang recipe. |
 | `sglang-ab.json` | Same-hardware vLLM vs SGLang comparison (earlier revision). |
 | `bf16-vs-fp8.json` | BF16 vs FP8 KV capacity, speed and quality probes. |
 | `kv-tuning.json` | Prefill-batch and utilization sweep that produced the 3.10M-token pool. |
