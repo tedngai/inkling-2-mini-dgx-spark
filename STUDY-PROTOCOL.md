@@ -53,6 +53,9 @@ recipe is optimal for every workload.
 - `audit.py` checks exact prompt/output counts, successful completion, common
   decode windows and manifest hashes.
 - Missing measurements remain unknown. No synthetic number is substituted.
+- A cell can complete all requests yet have no positive common decode window;
+  long prefills stagger the streams. Such a cell is reported as an
+  admission/completion receipt and its aggregate decode is left empty.
 
 ## Capacity is not context
 

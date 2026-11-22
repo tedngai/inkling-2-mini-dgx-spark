@@ -1,0 +1,17 @@
+{
+  "matrix": "results/matrix-20261121T225036",
+  "manifest_sha256": "b66f6c447dbff080ed69eebb94bd996eaa15445464936d19b552cf66810ceb32",
+  "cases": 27,
+  "requests_checked": 97,
+  "failures": [],
+  "warnings": [
+    "131072-c4.json: no positive common decode window",
+    "131072-c8.json: no positive common decode window",
+    "200000-c4.json: no positive common decode window",
+    "200000-c8.json: no positive common decode window",
+    "32768-c8.json: no positive common decode window",
+    "400000-c2.json: no positive common decode window",
+    "400000-c4.json: no positive common decode window"
+  ],
+  "status": "pass"
+}

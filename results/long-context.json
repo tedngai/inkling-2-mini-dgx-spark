@@ -1,16 +1,67 @@
 {
   "kind": "long-context",
   "receipts": [
-    {"model_revision": "ed40e7da625f594fc9c4990f5f66be24873c22d7",
-     "kv_dtype": "bfloat16", "max_num_batched_tokens": 8192,
-     "prompt_tokens": 362661, "output_tokens": 16, "seconds": 244.5,
-     "prefill_tok_s": 1483, "status": "HTTP 200"},
-    {"model_revision": "ed40e7da625f594fc9c4990f5f66be24873c22d7",
-     "kv_dtype": "fp8", "max_num_batched_tokens": 8192,
-     "prompt_tokens": 120941, "needle": "ZEBRA-9174", "status": "pass"},
-    {"model_revision": "b85c3cfa615fc413cc9af3379f491b963f3b586a",
-     "kv_dtype": "fp8", "max_num_batched_tokens": 2048,
-     "prompt_tokens": 120015, "needle": "ZEBRA-9174", "status": "pass"}
+    {
+      "model_revision": "ed40e7da625f594fc9c4990f5f66be24873c22d7",
+      "kv_dtype": "bfloat16",
+      "max_num_batched_tokens": 8192,
+      "prompt_tokens": 362661,
+      "output_tokens": 16,
+      "seconds": 244.5,
+      "prefill_tok_s": 1483,
+      "status": "HTTP 200"
+    },
+    {
+      "model_revision": "ed40e7da625f594fc9c4990f5f66be24873c22d7",
+      "kv_dtype": "fp8",
+      "max_num_batched_tokens": 8192,
+      "prompt_tokens": 120941,
+      "needle": "ZEBRA-9174",
+      "status": "pass"
+    },
+    {
+      "model_revision": "b85c3cfa615fc413cc9af3379f491b963f3b586a",
+      "kv_dtype": "fp8",
+      "max_num_batched_tokens": 2048,
+      "prompt_tokens": 120015,
+      "needle": "ZEBRA-9174",
+      "status": "pass"
+    },
+    {
+      "model_revision": "b85c3cfa615fc413cc9af3379f491b963f3b586a",
+      "kv_dtype": "fp8",
+      "max_num_batched_tokens": 2048,
+      "prompt_tokens": 400000,
+      "output_tokens": 512,
+      "concurrency": 1,
+      "ttft_s": 357.5,
+      "decode_tok_s": 47.8,
+      "status": "pass"
+    },
+    {
+      "model_revision": "b85c3cfa615fc413cc9af3379f491b963f3b586a",
+      "kv_dtype": "fp8",
+      "max_num_batched_tokens": 2048,
+      "prompt_tokens": 400000,
+      "output_tokens": 512,
+      "concurrency": 2,
+      "ttft_s": 540.7,
+      "decode_tok_s": null,
+      "status": "pass",
+      "note": "no positive common decode window; staggered prefill"
+    },
+    {
+      "model_revision": "b85c3cfa615fc413cc9af3379f491b963f3b586a",
+      "kv_dtype": "fp8",
+      "max_num_batched_tokens": 2048,
+      "prompt_tokens": 400000,
+      "output_tokens": 512,
+      "concurrency": 4,
+      "ttft_s": 907.4,
+      "decode_tok_s": null,
+      "status": "pass",
+      "note": "no positive common decode window; staggered prefill"
+    }
   ],
-  "note": "The 400K matrix cells in results/inkling-2-mini-table.md are the final single-request and multi-request context receipts."
+  "note": "Final 400K rows are from results/matrix-20261121T225036; C2/C4 completed but did not share a decode interval because prefill was staggered."
 }

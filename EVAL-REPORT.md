@@ -150,7 +150,29 @@ These are smoke checks, not a quality evaluation.
   400,000-token C2/C4 wave (see `results/inkling-2-mini-table.md`).
   Earlier receipts: `results/long-context.json`.
 
-## 9. Limitations
+## 9. Final matrix (`b85`)
+
+The published matrix has **27 cells and 97 requests**, with zero failed
+requests; `results/protocol-audit.json` reports `status: pass`. The full table
+is in the README and `results/inkling-2-mini-table.md`.
+
+| Observation | Result |
+|---|---|
+| C1 decode, 512–32K | 76.3–94.1 tok/s |
+| C1 decode, 131K / 200K / 400K | 66.0 / 59.4 / 47.8 tok/s |
+| C8 aggregate, 512 / 2K / 8K | 280.7 / 348.4 / 291.5 tok/s |
+| Effective prefill, 512–32K | 2,058–2,785 tok/s |
+| Effective prefill, 200K / 400K C1 | 1,675 / 1,119 tok/s |
+| 400K TTFT, C1 / C2 / C4 | 357.5 / 540.7 / 907.4 s |
+
+Seven cells have **no positive common decode window** (32K/C8, 131K/C4,
+131K/C8, 200K/C4, 200K/C8, 400K/C2, 400K/C4). This is a load-shape result,
+not a failure: the 2,048-token prefill budget and long prompts stagger the
+requests, so peak overlap is 1–6 and not all streams emit in a shared
+interval. Those cells are reported as admission/completion receipts with the
+aggregate decode column left empty rather than synthesized.
+
+## 10. Limitations
 
 - FP8 KV is lossy and the image warns that accuracy can drop without a proper
   scaling factor. The quality gate is three deterministic prompts plus needles,
