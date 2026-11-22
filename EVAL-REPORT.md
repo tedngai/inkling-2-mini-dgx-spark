@@ -200,7 +200,39 @@ Those medians are low where a request decodes while another request is
 prefilling; the last request often decodes at ~40–50 tok/s once the shared
 prefill has finished.
 
-## 10. Limitations
+## 10. Chat vs benchmark: DSpark acceptance
+
+A live chat request measured 27–34 tok/s while the matrix reports 76–94 tok/s
+at C1. The difference is DSpark acceptance, not hardware.
+
+| Workload | Decode | Accepted tokens/step | Draft acceptance |
+|---|---:|---:|---:|
+| Matrix-style raw code completion | **90.2 tok/s** | **5.00** | **71.4%** |
+| Chat prose + reasoning, DSpark 7 | 39.8 tok/s | 1.42 | 20.4% |
+| Chat prose + reasoning, DSpark 7 | 37.2 tok/s | 1.31 | 18.7% |
+| Chat prose + reasoning, DSpark 7 | 34.5 tok/s | 1.09 | 15.5% |
+| Same three prompts, DSpark off | **37.4 tok/s** | — | — |
+
+The matrix prompt is a repetitive code module, which the draft model predicts
+well. Open-ended chat and reasoning prose is much less predictable, so most
+of the seven drafts are rejected and decode settles around 35–40 tok/s.
+
+**Drafts cannot be reduced.** The checkpoint enforces exactly seven:
+
+```
+ValueError: Inkling2 DSpark requires num_speculative_tokens = 7
+           (the checkpoint's block size - 1)
+```
+
+**DSpark off is not a chat win.** Across three chat prompts, DSpark 7 averaged
+37.2 tok/s and no-spec averaged 37.4 tok/s — a tie. No-spec raises the KV pool
+from 3.10M to 3.70M tokens (7.59× to 9.03×) and makes chat latency more
+consistent, but gives up the 90 tok/s code path. The published recipe keeps
+DSpark 7.
+
+Receipt: `results/chat-spec-ab.json`.
+
+## 11. Limitations
 
 - FP8 KV is lossy and the image warns that accuracy can drop without a proper
   scaling factor. The quality gate is three deterministic prompts plus needles,

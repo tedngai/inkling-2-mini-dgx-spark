@@ -151,6 +151,12 @@ from 512 to 32K tokens, 66 tok/s at 131K, 59 tok/s at 200K and 48 tok/s at
 The 400K rows are also context receipts: TTFT is 357.5 s at C1, 540.7 s at
 C2 and 907.4 s at C4, all with 512 forced output tokens and no failures.
 
+**These are code-shaped raw completions, not chat.** DSpark accepts 5.0
+tokens/step on the matrix prompt but only 1.1–1.4 on open-ended chat prose,
+so a live chat stream runs at ~35–40 tok/s. DSpark cannot use fewer than
+seven drafts, and turning it off ties chat speed while losing the code gain.
+See `EVAL-REPORT.md` §10.
+
 
 ## 5. KV tuning history
 
