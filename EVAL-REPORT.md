@@ -86,6 +86,20 @@ path diverged slightly: a 200-token budget was consumed by reasoning at 2,048,
 while 600 tokens still returned the correct needle. Chunked prefill is
 mathematically equivalent but not guaranteed bit-exact at long context.
 
+### 400K/C1 at 8,192 vs 2,048 (b85, 0.90 utilization)
+
+One targeted retest checked whether a larger prefill budget fixes the 400K
+TTFT:
+
+| Batch | KV tokens | Concurrency @ 400K | TTFT | Effective prefill | Decode |
+|---:|---:|---:|---:|---:|---:|
+| 8,192 | 1,612,400 | 3.94× | **322.4 s** | 1,240.6 tok/s | 41.5 tok/s |
+| 2,048 | 3,095,742 | 7.56× | 357.5 s | 1,118.8 tok/s | 47.8 tok/s |
+
+8,192 bought only ~10% lower TTFT and cut the KV pool by ~48%. Not adopted;
+the published recipe stays at 2,048. The test is a single 400K/C1 receipt, not
+a new matrix.
+
 ## 5. Utilization and admission
 
 | Config | KV tokens | KV memory | Concurrency @ 400K | Host available |

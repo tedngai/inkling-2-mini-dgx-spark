@@ -164,7 +164,9 @@ The final pool came from three changes, measured separately:
 FP8 KV did not reduce the memory footprint; vLLM filled the same budget with
 more tokens. The batch change is the larger effect: at 8192 vLLM's hybrid-cache
 planner padded layer groups (up to 350% waste in one group), while 2048 removed
-the padding warnings. The cost is TTFT: ~3.9 s vs ~3.4 s on a 10K prompt.
+the padding warnings. The cost is TTFT: ~3.9 s vs ~3.4 s on a 10K prompt. A targeted 400K/C1
+retest at 8,192 gave 322.4 s TTFT vs 357.5 s at 2,048, but cut the pool to
+1.61M tokens; it was not adopted.
 
 Details and the BF16/FP8 quality probes are in [`EVAL-REPORT.md`](EVAL-REPORT.md).
 
