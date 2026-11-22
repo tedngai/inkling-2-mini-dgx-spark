@@ -1,0 +1,27 @@
+{
+  "kind": "kv-dtype-profile",
+  "model_revision": "b85c3cfa615fc413cc9af3379f491b963f3b586a",
+  "config": {
+    "max_model_len": 409600,
+    "gpu_memory_utilization": 0.9,
+    "max_num_batched_tokens": 2048,
+    "max_num_seqs": 8,
+    "speculative_config": "dspark/7/probabilistic"
+  },
+  "bf16": {
+    "kv_dtype": "auto (resolves to bfloat16)",
+    "kv_tokens": 1895843,
+    "concurrency_at_400k": 4.63,
+    "chat_prose_tok_s": [41.2, 32.3, 31.6],
+    "chat_prose_mean_tok_s": 35.0,
+    "code_chat_tok_s": [54.1, 50.2, 46.1],
+    "code_chat_mean_tok_s": 50.2
+  },
+  "fp8_reference": {
+    "kv_tokens": 3106964,
+    "concurrency_at_400k": 7.59,
+    "chat_prose_mean_tok_s": 37.2,
+    "code_chat_mean_tok_s": 49.5
+  },
+  "tradeoff": "BF16 keeps exact KV and still fits 400K with ~4.6x concurrency. It costs about 6% chat-prose decode and ~39% KV capacity versus FP8; coding-answer decode is unchanged within noise."
+}

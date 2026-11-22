@@ -1,0 +1,54 @@
+# Recipe: Inkling-2-Mini (BF16 KV variant)
+# thinkingmachines/Inkling-2-Mini (26B total / 5.4B effective active, NVFP4 + MXFP8)
+# Looped multimodal MoE; runs on one DGX Spark. DSpark speculator ships in the checkpoint.
+#
+# This variant keeps the KV cache in BF16 (exact, no KV quantization) instead of
+# the published FP8 profile. Measured on one GB10: 1,895,843 KV tokens, 4.63x
+# at 400K, ~35 tok/s chat prose, ~50 tok/s coding answers.
+# Start it with: RECIPE=recipe/inkling-2-mini-bf16.yaml ./start.sh
+
+recipe_version: "1"
+name: Inkling-2-Mini-BF16-KV
+description: vLLM serving thinkingmachines/Inkling-2-Mini on one DGX Spark with BF16 KV and DSpark
+
+model: thinkingmachines/Inkling-2-Mini
+
+cluster_only: false
+solo_only: true
+
+# Inkling 2 Mini needs vLLM >= 0.35.0 (not released yet); use the dedicated image.
+container: vllm/vllm-openai:inkling-2-mini
+
+defaults:
+  port: 8000
+  host: 0.0.0.0
+  tensor_parallel: 1
+  # 0.9 (not 1.0) leaves ~7 GiB host headroom on a 128 GB Spark.
+  gpu_memory_utilization: 0.9
+  # BF16 KV: exact. "auto" resolves to the checkpoint's bfloat16.
+  kv_cache_dtype: auto
+  # Published vLLM recipe caps Spark at 262,144. Raised to 400K here.
+  # At 0.9, BF16 gives a ~1.90M-token pool (~4.6x 400K).
+  max_model_len: 409600
+  # 8 can run at once; a full 400K session each needs ~4.6 of them to fit.
+  max_num_seqs: 8
+  # 2048 is the floor DSpark allows and minimizes hybrid-cache padding.
+  max_num_batched_tokens: 2048
+  served_model_name: inkling-2-mini
+
+command: |
+  vllm serve thinkingmachines/Inkling-2-Mini \
+    --host {host} \
+    --port {port} \
+    --served-model-name {served_model_name} \
+    --tensor-parallel-size {tensor_parallel} \
+    --gpu-memory-utilization {gpu_memory_utilization} \
+    --kv-cache-dtype {kv_cache_dtype} \
+    --max-model-len {max_model_len} \
+    --max-num-batched-tokens {max_num_batched_tokens} \
+    --max-num-seqs {max_num_seqs} \
+    --enable-prefix-caching \
+    --reasoning-parser inkling \
+    --enable-auto-tool-choice \
+    --tool-call-parser inkling \
+    --speculative-config '{{"method":"dspark","num_speculative_tokens":7,"draft_sample_method":"probabilistic"}}'

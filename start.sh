@@ -56,8 +56,9 @@ if [[ "${DAEMON:-1}" == "0" ]]; then
   DAEMON_ARGS=()
 fi
 
-echo "recipe: $ROOT/recipe/inkling-2-mini.yaml"
+RECIPE="${RECIPE:-$ROOT/recipe/inkling-2-mini.yaml}"
+echo "recipe: $RECIPE"
 echo "launcher: $LAUNCHER_DIR ($(git -C "$LAUNCHER_DIR" rev-parse --short HEAD 2>/dev/null || echo unknown))"
 exec "$LAUNCHER_DIR/run-recipe.sh" \
-  "$ROOT/recipe/inkling-2-mini.yaml" \
+  "$RECIPE" \
   --solo "${DAEMON_ARGS[@]}" -- "$@"

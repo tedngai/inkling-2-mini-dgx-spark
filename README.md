@@ -49,9 +49,14 @@ On later boots:
 DAEMON=0 ./start.sh         # foreground
 ```
 
-`start.sh` uses `spark-vllm-docker` at `0bdc9c9` and the recipe in
-[`recipe/inkling-2-mini.yaml`](recipe/inkling-2-mini.yaml). Set
-`SPARK_VLLM_DIR` to reuse an existing checkout.
+`start.sh` uses `spark-vllm-docker` at `0bdc9c9` and the published FP8 recipe in
+[`recipe/inkling-2-mini.yaml`](recipe/inkling-2-mini.yaml). For exact BF16 KV:
+
+```bash
+RECIPE=recipe/inkling-2-mini-bf16.yaml ./start.sh
+```
+
+Set `SPARK_VLLM_DIR` to reuse an existing checkout.
 
 The API binds to port **8000**; there is no authentication in this recipe.
 
@@ -79,6 +84,7 @@ The published profile is the tuned recipe, not the upstream stock defaults.
 | --- | --- | --- | --- |
 | `max-model-len` | **409600** | 262144 | Uses more of the model's 1M window. |
 | `kv-cache-dtype` | **fp8** | auto (BF16) | ~45% more KV tokens in the same memory budget. |
+| KV dtype (BF16 variant) | `auto` → BF16 | auto | Exact KV; 1.90M tokens / 4.63× at 400K; ~35 tok/s chat, ~50 tok/s code. `RECIPE=recipe/inkling-2-mini-bf16.yaml ./start.sh`. |
 | `max-num-batched-tokens` | **2048** | unset (2048 baseline) | Minimizes vLLM's hybrid-cache padding; 8192/4096 shrink the pool. |
 | `max-num-seqs` | **8** | unset | Matches the ~7.5× 400K KV capacity; 8 concurrent verified. |
 | `gpu-memory-utilization` | **0.90** | unset (0.90 default) | Leaves ~7 GiB host headroom on a 128 GB Spark. |

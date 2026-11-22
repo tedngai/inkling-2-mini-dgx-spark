@@ -65,6 +65,21 @@ were more verbose: reasoning tokens rose 264→299, 978→1,199 and
 989→1,458 on the three probes. This is a real behavioral difference, not a
 free lunch.
 
+### BF16 KV option (`b85`, 0.90, 2,048)
+
+| | FP8 KV | BF16 KV |
+|---|---:|---:|
+| KV tokens | 3,106,964 | **1,895,843** |
+| Concurrency @ 400K | 7.59× | 4.63× |
+| Chat prose, 3 prompts | 37.2 tok/s mean | 35.0 tok/s mean |
+| Coding answers, 3 prompts | 49.5 tok/s mean | 50.2 tok/s mean |
+
+BF16 keeps exact KV values and still fits a 400K request with ~4.6×
+concurrency. The cost is ~39% of the KV pool and ~6% chat-prose decode;
+coding-answer decode is unchanged within noise. Use
+`recipe/inkling-2-mini-bf16.yaml` to serve it. Receipt:
+`results/bf16-kv.json`.
+
 ## 4. Prefill batch and KV pool (`ed40`, FP8, 400K window)
 
 `max_num_batched_tokens` controls prefill chunk size and, indirectly, vLLM's
