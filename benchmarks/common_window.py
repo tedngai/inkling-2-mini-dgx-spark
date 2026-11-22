@@ -83,16 +83,19 @@ def render(summaries: list[dict], output_tokens: int) -> str:
         "",
         "Effective prefill includes queueing and mixed decode work until the last "
         "request reaches its first token. Total decode is the sum of per-request "
-        "token rates inside the common decode interval. Decode/request is the "
-        "median rate in that same interval. TTFT is the median time to first token.",
+        "token rates inside the common decode interval. Shared decode/request is "
+        "the median rate in that same interval; per-request decode is the median "
+        "of each request's own decode window and is defined even when no common "
+        "interval exists. TTFT is the median time to first token.",
         "",
         f"Synthetic repeated notes with unique prefixes; {output_tokens:,}-token "
         "forced output budget; prefix reuse excluded by a nonce prefix. This is "
         "not a quality test.",
         "",
         "| Input tokens/request | C | Effective prefill tok/s | Total decode tok/s | "
-        "Decode/request tok/s | TTFT s | Shared decode s | Peak overlap | Success |",
-        "|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "Shared decode/request tok/s | Per-request decode tok/s | TTFT s | "
+        "Shared decode s | Peak overlap | Success |",
+        "|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for item in summaries:
         def fmt(key: str) -> str:
@@ -102,7 +105,7 @@ def render(summaries: list[dict], output_tokens: int) -> str:
         lines.append(
             f"| {item['input_tokens']:,} | {item['concurrency']} | "
             f"{fmt('effective_prefill_tps')} | {fmt('total_decode_tps')} | "
-            f"{fmt('shared_decode_tps_per_request')} | {fmt('median_ttft_s')} | "
+            f"{fmt('shared_decode_tps_per_request')} | {fmt('median_decode_tps')} | {fmt('median_ttft_s')} | "
             f"{fmt('shared_decode_seconds')} | {item['peak_client_overlap']} | "
             f"{item['successes']}/{item['concurrency']} |"
         )

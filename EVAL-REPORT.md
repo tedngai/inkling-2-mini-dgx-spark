@@ -183,8 +183,22 @@ Seven cells have **no positive common decode window** (32K/C8, 131K/C4,
 131K/C8, 200K/C4, 200K/C8, 400K/C2, 400K/C4). This is a load-shape result,
 not a failure: the 2,048-token prefill budget and long prompts stagger the
 requests, so peak overlap is 1–6 and not all streams emit in a shared
-interval. Those cells are reported as admission/completion receipts with the
-aggregate decode column left empty rather than synthesized.
+interval. The aggregate columns are left empty rather than synthesized; the
+per-request decode medians are still defined:
+
+| Cell | Peak overlap | Per-request decode median |
+|---|---:|---:|
+| 32K / C8 | 6 | 12.1 tok/s |
+| 131K / C4 | 2 | 6.6 tok/s |
+| 131K / C8 | 3 | 5.4 tok/s |
+| 200K / C4 | 1 | 4.4 tok/s |
+| 200K / C8 | 2 | 4.0 tok/s |
+| 400K / C2 | 1 | 25.3 tok/s |
+| 400K / C4 | 1 | 4.0 tok/s |
+
+Those medians are low where a request decodes while another request is
+prefilling; the last request often decodes at ~40–50 tok/s once the shared
+prefill has finished.
 
 ## 10. Limitations
 
